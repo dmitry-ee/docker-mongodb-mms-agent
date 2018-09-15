@@ -23,8 +23,8 @@ set_config() {
 }
 
 set_config mmsApiKey "$MMS_API_KEY"
-
 set_config mmsGroupId "$MMS_GROUP_ID"
+set_config mmsBaseUrl "$MMS_BASE_URL"
 
 cat "$config_tmp" > /etc/mongodb-mms/monitoring-agent.config
 rm "$config_tmp"

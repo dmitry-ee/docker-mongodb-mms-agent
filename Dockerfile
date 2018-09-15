@@ -1,18 +1,19 @@
-FROM ubuntu:16.04
+FROM debian:jessie
 
 # Set envs
-ENV DEBIAN_FRONTEND noninteractive
-ENV DEBCONF_NONINTERACTIVE_SEEN true
-ENV MMS_VERSION latest
+ENV MONGO_MMS_AGENT_MAJOR		6.6
+ENV MONGO_MMS_AGENT_VERSION	6.6.2
+ENV MONGO_MMS_AGENT_BUILD		6.6.2.464-1
 
 RUN apt-get -qqy update \
  && apt-get -qqy upgrade \
  && apt-get -qqy install curl \
+ && echo https://cloud.mongodb.com/download/agent/monitoring/mongodb-mms-monitoring-agent_${MONGO_MMS_AGENT_BUILD}_amd64.ubuntu1604.deb -o mms.deb \
  && apt-get -qqy install logrotate \
  && apt-get -qqy install supervisor \
  && apt-get -qqy install munin-node \
  && apt-get -qqy install libsasl2-2 \
- && curl -sSL https://cloud.mongodb.com/download/agent/monitoring/mongodb-mms-monitoring-agent_${MMS_VERSION}_amd64.ubuntu1604.deb -o mms.deb \
+ && curl -sSL https://cloud.mongodb.com/download/agent/monitoring/mongodb-mms-monitoring-agent_${MONGO_MMS_AGENT_BUILD}_amd64.ubuntu1604.deb -o mms.deb \
  && dpkg -i mms.deb \
  && rm mms.deb \
  && apt-get -qqy autoremove \

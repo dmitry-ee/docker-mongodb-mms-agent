@@ -1,0 +1,42 @@
+def image_base_name = "mongodb-mms-agent"
+
+ext {
+  imagePrefix = project.properties['imagePrefix'] ?: "docker.moscow.alfaintra.net"
+}
+
+allprojects {
+  configurations {
+    provided
+  }
+}
+
+task build() << {
+  logger.quiet "build project $project.name"
+  def command = "docker build -t $imagePrefix/${image_base_name}:${getVersionName()} $project.projectDir.absolutePath"
+  shellDo(command)
+}
+
+def shellDo(command) {
+  logger.quiet command
+  def proc = command.execute();
+  proc.waitForProcessOutput(System.out, System.err)
+}
+
+task push() << {
+  logger.quiet "push project $project.name"
+  def command = "docker push $imagePrefix/${image_base_name}:${getVersionName()}"
+  shellDo(command)
+}
+
+def getVersionName() {
+  def stdout = new ByteArrayOutputStream()
+  exec {
+    commandLine "bash", "-c", "git describe --tags | sed \"s/\\([^-]*\\)-.*/\\1/\""
+    standardOutput = stdout
+  }
+  return stdout.toString().trim()
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '3.2.1'
+}
