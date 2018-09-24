@@ -1,4 +1,4 @@
-def image_base_name = "mongodb-mms-agent"
+def image_base_name = "mongo-mms-agent"
 
 ext {
   imagePrefix = project.properties['imagePrefix'] ?: "docker.moscow.alfaintra.net"

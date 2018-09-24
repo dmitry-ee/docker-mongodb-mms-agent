@@ -2,7 +2,7 @@
 set -e
 
 # Setup mongodb-mms-agent
-if [ ! "$MMS_API_KEY" ] || [ ! "$MMS_GROUP_ID" ]; then
+if [ ! "$MONGO_MMS_API_KEY" ] || [ ! "$MONGO_MMS_GROUP_ID" ]; then
     {
         echo 'error: MMS_API_KEY or MMS_GROUP_ID was not specified'
         echo 'try something like: docker run -e MMS_API_KEY=... -w MMS_GROUP_ID=... ...'
@@ -22,9 +22,9 @@ set_config() {
     sed -ri "s/^($key)[ ]*=.*$/\1 = $sed_escaped_value/" "$config_tmp"
 }
 
-set_config mmsApiKey "$MMS_API_KEY"
-set_config mmsGroupId "$MMS_GROUP_ID"
-set_config mmsBaseUrl "$MMS_BASE_URL"
+set_config mmsApiKey "$MONGO_MMS_API_KEY"
+set_config mmsGroupId "$MONGO_MMS_GROUP_ID"
+set_config mmsBaseUrl "$MONGO_MMS_BASE_URL"
 
 cat "$config_tmp" > /etc/mongodb-mms/monitoring-agent.config
 rm "$config_tmp"

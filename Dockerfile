@@ -8,7 +8,6 @@ ENV MONGO_MMS_AGENT_BUILD		6.6.2.464-1
 RUN apt-get -qqy update \
  && apt-get -qqy upgrade \
  && apt-get -qqy install curl \
- && echo https://cloud.mongodb.com/download/agent/monitoring/mongodb-mms-monitoring-agent_${MONGO_MMS_AGENT_BUILD}_amd64.ubuntu1604.deb -o mms.deb \
  && apt-get -qqy install logrotate \
  && apt-get -qqy install supervisor \
  && apt-get -qqy install munin-node \
@@ -21,10 +20,10 @@ RUN apt-get -qqy update \
  && rm -rf /var/lib/apt/*
 
 # Add munin-node conf
-ADD munin/munin-node.conf /etc/munin/munin-node.conf
+ADD conf/munin/munin-node.conf /etc/munin/munin-node.conf
 
 # Add supervisord conf
-ADD supervisor /etc/supervisor
+ADD conf/supervisor /etc/supervisor
 
 # Add entrypoint
 ADD docker-entrypoint.sh /
