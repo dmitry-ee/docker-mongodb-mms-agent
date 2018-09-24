@@ -1,9 +1,9 @@
 FROM debian:jessie
 
 # Set envs
-ENV MONGO_MMS_AGENT_MAJOR		6.6
+ENV MONGO_MMS_AGENT_MAJOR	6.6
 ENV MONGO_MMS_AGENT_VERSION	6.6.2
-ENV MONGO_MMS_AGENT_BUILD		6.6.2.464-1
+ENV MONGO_MMS_AGENT_BUILD	6.6.2.464-1
 
 RUN apt-get -qqy update \
  && apt-get -qqy upgrade \
