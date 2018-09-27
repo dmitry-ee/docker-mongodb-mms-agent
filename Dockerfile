@@ -1,6 +1,6 @@
 FROM 		debian:jessie
 
-# Set envs
+# DEFAULT ENVS
 ENV 		MONGO_MMS_AGENT_MAJOR	6.6
 ENV 		MONGO_MMS_AGENT_VERSION	6.6.2
 ENV 		MONGO_MMS_AGENT_BUILD	6.6.2.464-1
@@ -22,8 +22,13 @@ RUN 		apt-get -qqy update \
 LABEL 		description="MongoDB Enterprise OpsManager (non-official) MMS Agent (repo forked from some italian guy)"
 LABEL 		maintainer="Dmitry Evdokimov # devdokimoff@gmail.com / devdokimov@alfabank.ru #"
 
-ADD 		conf/munin/munin-node.conf /etc/munin/munin-node.conf
+# LINKIN' SOME MUNIN PLUGINS ACCORDING TO:
+# https://docs.opsmanager.mongodb.com/current/tutorial/configure-monitoring-munin-node/
+RUN 		ln -s /usr/share/munin/plugins/iostat /etc/munin/plugins/iostat \
+      && ln -s /usr/share/munin/plugins/iostat_ios /etc/munin/plugins/iostat_ios
 
+ADD 		conf/munin/munin-node.conf /etc/munin/munin-node.conf
+ADD 		conf/munin/munin-node-plugin.conf /etc/munin/plugin-conf.d/munin-node
 ADD 		conf/supervisor /etc/supervisor
 
 ADD 		docker-entrypoint.sh /
