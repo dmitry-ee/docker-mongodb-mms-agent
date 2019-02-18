@@ -23,6 +23,13 @@ set_config() {
     sed -ri "s/^($key)[ ]*=.*$/\1 = $sed_escaped_value/" "$config_tmp"
 }
 
+if [ -n "$MONGO_MMS_DISABLE_STAT_CPU" ]; then
+    rm -f rm /etc/munin/plugins/iostat
+fi
+if [ -n "$MONGO_MMS_DISABLE_STAT_DISK" ]; then
+    rm -f /etc/munin/plugins/iostat_ios
+fi
+
 set_config mmsApiKey "$MONGO_MMS_API_KEY"
 set_config mmsGroupId "$MONGO_MMS_GROUP_ID"
 set_config mmsBaseUrl "$MONGO_MMS_BASE_URL"
