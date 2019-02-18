@@ -24,7 +24,9 @@ LABEL 		maintainer="Dmitry Evdokimov # devdokimoff@gmail.com / devdokimov@alfaba
 
 # LINKIN' SOME MUNIN PLUGINS ACCORDING TO:
 # https://docs.opsmanager.mongodb.com/current/tutorial/configure-monitoring-munin-node/
-RUN 		ln -s /usr/share/munin/plugins/iostat /etc/munin/plugins/iostat \
+RUN   rm /etc/munin/plugins/* \
+      && ln -s /usr/share/munin/plugins/cpu /etc/munin/plugins/cpu \
+      && ln -s /usr/share/munin/plugins/iostat /etc/munin/plugins/iostat \
       && ln -s /usr/share/munin/plugins/iostat_ios /etc/munin/plugins/iostat_ios
 
 ADD 		conf/munin/munin-node.conf /etc/munin/munin-node.conf
