@@ -1,9 +1,9 @@
 FROM 		debian:jessie
 
 # DEFAULT ENVS
-ENV 		MONGO_MMS_AGENT_MAJOR	6.6
-ENV 		MONGO_MMS_AGENT_VERSION	6.6.2
-ENV 		MONGO_MMS_AGENT_BUILD	6.6.2.464-1
+ENV 		MONGO_MMS_AGENT_MAJOR	7.0
+ENV 		MONGO_MMS_AGENT_VERSION	7.0.0
+ENV 		MONGO_MMS_AGENT_BUILD	7.0.0.481-1
 
 RUN 		apt-get -qqy update \
       && apt-get -qqy upgrade \
@@ -24,7 +24,9 @@ LABEL 		maintainer="Dmitry Evdokimov # devdokimoff@gmail.com / devdokimov@alfaba
 
 # LINKIN' SOME MUNIN PLUGINS ACCORDING TO:
 # https://docs.opsmanager.mongodb.com/current/tutorial/configure-monitoring-munin-node/
-RUN 		ln -s /usr/share/munin/plugins/iostat /etc/munin/plugins/iostat \
+RUN   rm /etc/munin/plugins/* \
+      && ln -s /usr/share/munin/plugins/cpu /etc/munin/plugins/cpu \
+      && ln -s /usr/share/munin/plugins/iostat /etc/munin/plugins/iostat \
       && ln -s /usr/share/munin/plugins/iostat_ios /etc/munin/plugins/iostat_ios
 
 ADD 		conf/munin/munin-node.conf /etc/munin/munin-node.conf
