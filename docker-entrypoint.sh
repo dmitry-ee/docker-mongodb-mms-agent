@@ -29,7 +29,7 @@ if [ -n "$MONGO_MMS_DISABLE_STAT_CPU" ]; then
 fi
 if [ -n "$MONGO_MMS_DISABLE_STAT_DISK" ]; then
     rm -f /etc/munin/plugins/iostat_ios
-    rm -f rm /etc/munin/plugins/iostat
+    rm -f /etc/munin/plugins/iostat
 fi
 
 set_config mmsApiKey "$MONGO_MMS_API_KEY"
