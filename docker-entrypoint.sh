@@ -14,6 +14,7 @@ fi
 
 config_tmp="$(mktemp)"
 cat /etc/mongodb-mms/monitoring-agent.config > "$config_tmp"
+printf "\nenableMunin=true" >> "$config_tmp"
 
 set_config() {
     key="$1"
@@ -34,7 +35,7 @@ config_tmp="$(mktemp)"
 cat /etc/munin/munin-node.conf > "$config_tmp"
 
 # allow interface address ...
-echo $(ip route get 8.8.8.8|head -n 1 |awk '{print "allow ^"$7"$"}'|sed 's@\.@\\.@g') >> "$config_tmp"
+echo $( ip route get 8.8.8.8 | head -n 1 | awk '{print "allow ^"$7"$"}' | sed 's@\.@\\.@g' | sed 's@[0-9]*\$@[0-9]*\$@g' ) >> "$config_tmp"
 
 cat "$config_tmp" > /etc/munin/munin-node.conf
 rm "$config_tmp"
