@@ -1,9 +1,9 @@
 FROM 		debian:jessie
 
 # DEFAULT ENVS
-ENV 		MONGO_MMS_AGENT_MAJOR	7.0
-ENV 		MONGO_MMS_AGENT_VERSION	7.0.0
-ENV 		MONGO_MMS_AGENT_BUILD	7.0.0.481-1
+ENV 		MONGO_MMS_AGENT_MAJOR	10.2
+ENV 		MONGO_MMS_AGENT_VERSION	10.2.11
+ENV 		MONGO_MMS_AGENT_BUILD	10.2.11.5927-1
 
 RUN 		apt-get -qqy update \
       && apt-get -qqy upgrade \
@@ -11,16 +11,17 @@ RUN 		apt-get -qqy update \
       && apt-get -qqy install logrotate \
       && apt-get -qqy install supervisor \
       && apt-get -qqy install munin-node \
-      && apt-get -qqy install libsasl2-2 \
-      && curl -sSL https://cloud.mongodb.com/download/agent/monitoring/mongodb-mms-monitoring-agent_${MONGO_MMS_AGENT_BUILD}_amd64.ubuntu1604.deb -o mms.deb \
-      && dpkg -i mms.deb \
+      && apt-get -qqy install libsasl2-2
+ADD   mms-aam-10.2.11.5927-1.deb /mms.deb
+
+RUN   dpkg -i mms.deb \
       && rm mms.deb \
       && apt-get -qqy autoremove \
       && apt-get -qqy clean \
       && rm -rf /var/lib/apt/*
 
 LABEL 		description="MongoDB Enterprise OpsManager (non-official) MMS Agent (repo forked from some italian guy)"
-LABEL 		maintainer="Dmitry Evdokimov # devdokimoff@gmail.com / devdokimov@alfabank.ru #"
+LABEL 		maintainer="Farkhad Akhmetshin # fakhmetshin@alfabank.ru #"
 
 # LINKIN' SOME MUNIN PLUGINS ACCORDING TO:
 # https://docs.opsmanager.mongodb.com/current/tutorial/configure-monitoring-munin-node/
