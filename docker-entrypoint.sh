@@ -13,8 +13,7 @@ if [ ! "$MONGO_MMS_API_KEY" ] || [ ! "$MONGO_MMS_GROUP_ID" ]; then
 fi
 
 config_tmp="$(mktemp)"
-cat /etc/mongodb-mms/monitoring-agent.config > "$config_tmp"
-printf "\nenableMunin=true" >> "$config_tmp"
+cat /etc/mongodb-mms/automation-agent.config > "$config_tmp"
 
 set_config() {
     key="$1"
@@ -36,17 +35,7 @@ set_config mmsApiKey "$MONGO_MMS_API_KEY"
 set_config mmsGroupId "$MONGO_MMS_GROUP_ID"
 set_config mmsBaseUrl "$MONGO_MMS_BASE_URL"
 
-cat "$config_tmp" > /etc/mongodb-mms/monitoring-agent.config
-rm "$config_tmp"
-
-# Setup munin-node
-config_tmp="$(mktemp)"
-cat /etc/munin/munin-node.conf > "$config_tmp"
-
-# allow interface address ...
-echo $( ip route get 8.8.8.8 | head -n 1 | awk '{print "allow ^"$7"$"}' | sed 's@\.@\\.@g' | sed 's@[0-9]*\$@[0-9]*\$@g' ) >> "$config_tmp"
-
-cat "$config_tmp" > /etc/munin/munin-node.conf
+cat "$config_tmp" > /etc/mongodb-mms/automation-agent.config
 rm "$config_tmp"
 
 exec "$@"
